@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_tool_bar"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:background="@color/colorBg">
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dp_32"
+        android:layout_width="match_parent"
+        android:paddingEnd="@dimen/default_padding"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IVideo"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorDefaultText"
+            android:textSize="@dimen/default_text_size"/>
+
+        <ImageView
+            android:layout_marginLeft="@dimen/default_margin"
+            android:id="@+id/id_iv_more"
+            android:layout_width="@dimen/default_icon_size"
+            android:layout_height="@dimen/default_icon_size"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/default_margin"
+            android:src="@drawable/icon_more_h"/>
+
+        <ImageView
+            android:id="@+id/id_iv_search"
+            android:layout_width="@dimen/default_icon_size"
+            android:layout_height="@dimen/default_icon_size"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_toLeftOf="@id/id_iv_more"
+            android:src="@drawable/icon_search_1"
+            />
+    </RelativeLayout>
+</android.support.v7.widget.Toolbar>
+
+
+    

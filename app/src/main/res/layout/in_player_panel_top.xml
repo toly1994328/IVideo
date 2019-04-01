@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/id_ll_top"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignTop="@id/id_vv"
+        android:background="@color/panel_color"
+        android:orientation="horizontal"
+        tools:showIn="@layout/activity_player">
+
+    <com.toly1994.ivideo.widget.AlphaImageView
+            android:id="@+id/id_iv_back"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="15dp"
+            android:src="@mipmap/icon_back"/>
+
+    <TextView
+            android:id="@+id/id_tv_name"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="IVideo"
+            android:layout_marginTop="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/id_iv_back"
+            android:textColor="@android:color/white"
+            android:layout_marginEnd="10dp"
+
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:textSize="18sp"/>
+
+    <TextView
+            android:id="@+id/id_tv_time"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@id/id_tv_name"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018-10-22"
+            android:layout_centerVertical="true"
+
+            android:textColor="@android:color/white"
+            android:textSize="18sp"/>
+
+
+    <TextView
+            android:id="@+id/id_tv_speed"
+            android:layout_marginTop="5dp"
+            android:layout_toStartOf="@id/id_iv_more"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="倍速"
+            android:layout_marginEnd="10dp"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"/>
+
+    <com.toly1994.ivideo.widget.AlphaImageView
+            android:id="@+id/id_iv_more"
+            android:layout_width="25dp"
+            android:tint="#fff"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="60dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_more_h"/>
+</RelativeLayout>

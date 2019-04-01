@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <com.toly1994.ivideo.widget.VideoView
+            android:id="@+id/id_vv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    <ImageView
+            android:id="@+id/id_iv_lock"
+            android:layout_width="35dp"
+            android:src="@drawable/icon_unlock"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="30dp"
+            android:layout_height="35dp"/>
+
+
+    <include layout="@layout/in_player_loading"/>
+
+    <include layout="@layout/in_player_panel_top"/>
+
+    <include layout="@layout/in_player_panel_bottom"/>
+
+</RelativeLayout>
