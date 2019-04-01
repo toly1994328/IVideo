@@ -2,6 +2,7 @@
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/root"
+        android:background="#000"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -11,9 +12,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    <ImageView
+    <com.toly1994.ivideo.widget.ToggleImageView
             android:id="@+id/id_iv_lock"
-            android:layout_width="35dp"
+            android:layout_width="30dp"
             android:src="@drawable/icon_unlock"
             android:layout_centerVertical="true"
             android:layout_marginStart="30dp"
@@ -23,6 +24,21 @@
     <include layout="@layout/in_player_loading"/>
 
     <include layout="@layout/in_player_panel_top"/>
+
+
+    <SeekBar
+            android:id="@+id/id_sb_progress"
+            android:layout_width="match_parent"
+
+            android:thumbTint="@android:color/white"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:maxHeight="3dp"
+            android:minHeight="3dp"
+            android:layout_marginBottom="-8dp"
+            android:progressDrawable="@drawable/seekbar_bg"
+            android:layout_above="@id/id_ll_bottom"
+            android:layout_height="wrap_content"/>
 
     <include layout="@layout/in_player_panel_bottom"/>
 

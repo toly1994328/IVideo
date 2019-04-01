@@ -5,9 +5,12 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.widget.SeekBar
 import com.toly1994.ivideo.R
+import com.toly1994.ivideo.app.utils.EventUtils
+import com.toly1994.ivideo.app.utils.ScreenUtils
 import com.toly1994.ivideo.model.CtrlPanel
 import com.toly1994.ivideo.presenter.CtrlPresenter
 import com.toly1994.ivideo.presenter.ICtrlPresenter
@@ -15,6 +18,8 @@ import kotlinx.android.synthetic.main.activity_player.*
 import kotlinx.android.synthetic.main.in_player_loading.*
 import kotlinx.android.synthetic.main.in_player_panel_bottom.*
 import kotlinx.android.synthetic.main.in_player_panel_top.*
+
+
 
 /**
  * 作者：张风捷特烈<br></br>
@@ -28,11 +33,16 @@ class CtrlView : AppCompatActivity(), ICtrlView {
     private val mHandler = Handler(Looper.getMainLooper())
     private var speeds = floatArrayOf(0.5f, 0.75f, 1f, 1.25f, 1.5f, 1.75f, 2.0f)
     private var curSpeedIdx = 2
+    private var isLocked = false
+    private var isShow = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        ScreenUtils.hideStatusBar(this)
         setContentView(R.layout.activity_player)
+        ScreenUtils.hideNavigationBar(this)
 
         val path = intent.getStringExtra("video-path")
         presenter = CtrlPresenter(this, id_vv)
@@ -41,10 +51,18 @@ class CtrlView : AppCompatActivity(), ICtrlView {
     }
 
     private fun doActions() {
-        //点击屏幕显示面板
-        root.setOnClickListener {
-            showPanel()
-        }
+        //点击屏幕显示面板 : 双击暂停/播放
+        EventUtils.nClick(root, 2, 500, {
+            if (!isLocked) {
+                id_vv.togglePlay(id_iv_play, R.drawable.icon_start_3, R.drawable.icon_stop_3)
+            }
+        }, {
+            if (!isLocked) {
+                showPanel()
+            }
+            id_iv_lock.visibility = View.VISIBLE
+
+        })
 
         //播放
         id_iv_play.setOnAlphaListener {
@@ -81,12 +99,20 @@ class CtrlView : AppCompatActivity(), ICtrlView {
             }
         })
 
+        id_iv_lock.initTwoButton(
+            R.drawable.icon_unlock, { v ->
+                showPanel()
+                isLocked = false
+            }, R.drawable.icon_lock, { v ->
+                hidePanel()
+                isLocked = true
+            })
     }
 
     override fun render(ctrlPanel: CtrlPanel) {
         id_tv_name.text = ctrlPanel.name
         id_tv_time.text = ctrlPanel.time
-        id_tv_all_time.text = ctrlPanel.allTime
+        id_tv_all_time.text = ctrlPanel.playedTime + "/" + ctrlPanel.allTime
         id_sb_progress.progress = ctrlPanel.rate
     }
 
@@ -101,14 +127,26 @@ class CtrlView : AppCompatActivity(), ICtrlView {
 
 
     override fun showPanel() {
+        Log.e("showPanel", "showPanel: " + isShow);
+        if (isShow) {
+            hidePanel()
+            isShow = !isShow
+            return
+        }
+
         id_ll_top.visibility = View.VISIBLE
         id_ll_bottom.visibility = View.VISIBLE
         id_iv_lock.visibility = View.VISIBLE
-        presenter.render(false)
+        id_sb_progress.visibility = View.VISIBLE
 
+        presenter.render(false)
+        isShow = !isShow
         //使用Handler五秒钟之后隐藏面板
         mHandler.removeMessages(100)
-        val msg = Message.obtain(mHandler, ::hidePanel)
+        val msg = Message.obtain(mHandler) {
+            hidePanel()
+            hideLock()
+        }
         msg.what = 100
         mHandler.sendMessageDelayed(msg, 5000)
     }
@@ -116,6 +154,11 @@ class CtrlView : AppCompatActivity(), ICtrlView {
     override fun hidePanel() {
         id_ll_top.visibility = View.GONE
         id_ll_bottom.visibility = View.GONE
+        id_sb_progress.visibility = View.GONE
+    }
+
+    fun hideLock() {
         id_iv_lock.visibility = View.GONE
     }
+
 }

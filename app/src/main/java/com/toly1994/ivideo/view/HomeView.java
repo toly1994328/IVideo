@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import com.toly1994.ivideo.R;
 import com.toly1994.ivideo.app.permission.Permission;
 import com.toly1994.ivideo.app.permission.PermissionActivity;
+import com.toly1994.ivideo.app.utils.ScreenUtils;
 import com.toly1994.ivideo.model.VideoInfo;
 import com.toly1994.ivideo.presenter.HomePresenter;
 import com.toly1994.ivideo.presenter.IHomePresenter;
@@ -42,6 +43,7 @@ public class HomeView extends PermissionActivity implements IView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ScreenUtils.hideStatusBar(this);
         setContentView(R.layout.activity_home);
 
         applyPermissions(Permission.WRITE_EXTERNAL_STORAGE);

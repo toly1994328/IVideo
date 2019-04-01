@@ -10,6 +10,7 @@ public class CtrlPanel {
     public String name;
     public String time;
     public String allTime;
+    public String playedTime;
     public float speed;
     public int rate;
 }

@@ -1,7 +1,7 @@
 package com.toly1994.ivideo.presenter;
 
-import com.toly1994.ivideo.model.CtrlPanel;
 import com.toly1994.ivideo.app.utils.Formater;
+import com.toly1994.ivideo.model.CtrlPanel;
 import com.toly1994.ivideo.view.ICtrlView;
 import com.toly1994.ivideo.widget.VideoView;
 
@@ -59,5 +59,6 @@ public class CtrlPresenter implements ICtrlPresenter {
     private void updateCtrlData() {
         mPanel.time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
                 .format(System.currentTimeMillis());
+        mPanel.playedTime = Formater.formatTime((long) (mPanel.rate / 100.f * mVideoView.getDuration()));
     }
 }

@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignTop="@id/id_vv"
-        android:background="@color/panel_color"
+        android:background="@drawable/gradient_top"
         android:orientation="horizontal"
         tools:showIn="@layout/activity_player">
 
