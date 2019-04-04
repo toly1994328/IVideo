@@ -1,4 +1,4 @@
-package com.toly1994.ivideo.view;
+package com.toly1994.ivideo.view.itf;
 
 import com.toly1994.ivideo.model.CtrlPanel;
 
@@ -8,12 +8,10 @@ import com.toly1994.ivideo.model.CtrlPanel;
  * 邮箱：1981462002@qq.com<br/>
  * 说明：
  */
-public interface ICtrlView {
+public interface ICtrlPanelView extends ILoadingView {
     void showPanel();
-    void hidePanel();
 
-    void showLoading();
-    void hideLoading();
+    void hidePanel();
 
     void render(CtrlPanel ctrlPanel);
 }

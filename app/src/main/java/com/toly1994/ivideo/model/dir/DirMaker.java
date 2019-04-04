@@ -40,7 +40,7 @@ public class DirMaker {
         for (String path : mPaths) {
 
             File parentFile = new File(path).getParentFile();
-            //没有父目录，跳出本次循环
+
             if (parentFile == null) continue;
             //声明实体对象
             DirBean folderBean;

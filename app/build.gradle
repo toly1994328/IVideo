@@ -37,4 +37,9 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
+    //底栏
+    implementation 'com.ashokvarma.android:bottom-navigation-bar:1.2.0'
 }
+
+//----------------使用 svg2xml 插件 -------------------------------------------------
+apply from: 'svg2xml.gradle'

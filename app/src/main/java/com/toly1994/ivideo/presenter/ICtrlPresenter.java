@@ -9,6 +9,8 @@ package com.toly1994.ivideo.presenter;
 public interface ICtrlPresenter extends IPresenter{
 
 
-    void initVideo(String path);
+    void initVideo(int position);
+    void next();
+    void prev();
 
 }

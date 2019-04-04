@@ -1,11 +1,8 @@
-package com.toly1994.ivideo.view
+package com.toly1994.ivideo.view.itf.impl
 
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.widget.SeekBar
 import com.toly1994.ivideo.R
@@ -14,11 +11,11 @@ import com.toly1994.ivideo.app.utils.ScreenUtils
 import com.toly1994.ivideo.model.CtrlPanel
 import com.toly1994.ivideo.presenter.CtrlPresenter
 import com.toly1994.ivideo.presenter.ICtrlPresenter
+import com.toly1994.ivideo.view.itf.ICtrlPanelView
 import kotlinx.android.synthetic.main.activity_player.*
 import kotlinx.android.synthetic.main.in_player_loading.*
 import kotlinx.android.synthetic.main.in_player_panel_bottom.*
 import kotlinx.android.synthetic.main.in_player_panel_top.*
-
 
 
 /**
@@ -27,10 +24,14 @@ import kotlinx.android.synthetic.main.in_player_panel_top.*
  * 邮箱：1981462002@qq.com<br></br>
  * 说明：
  */
-class CtrlView : AppCompatActivity(), ICtrlView {
+class CtrlPanelView : AppCompatActivity(), ICtrlPanelView {
 
     private lateinit var presenter: ICtrlPresenter;
-    private val mHandler = Handler(Looper.getMainLooper())
+    private val mHandler = Handler {
+        hidePanel()
+        hideLock()
+        false
+    }
     private var speeds = floatArrayOf(0.5f, 0.75f, 1f, 1.25f, 1.5f, 1.75f, 2.0f)
     private var curSpeedIdx = 2
     private var isLocked = false
@@ -44,9 +45,10 @@ class CtrlView : AppCompatActivity(), ICtrlView {
         setContentView(R.layout.activity_player)
         ScreenUtils.hideNavigationBar(this)
 
-        val path = intent.getStringExtra("video-path")
+        val position = intent.getIntExtra("video-position", 0)
         presenter = CtrlPresenter(this, id_vv)
-        presenter.initVideo(path)
+        presenter.initVideo(position)
+
         doActions()
     }
 
@@ -58,7 +60,11 @@ class CtrlView : AppCompatActivity(), ICtrlView {
             }
         }, {
             if (!isLocked) {
-                showPanel()
+                if (isShow) {
+                    hidePanel()
+                } else {
+                    showPanel()
+                }
             }
             id_iv_lock.visibility = View.VISIBLE
 
@@ -67,6 +73,7 @@ class CtrlView : AppCompatActivity(), ICtrlView {
         //播放
         id_iv_play.setOnAlphaListener {
             id_vv.togglePlay(id_iv_play, R.drawable.icon_start_3, R.drawable.icon_stop_3)
+            showPanel()
         }
 
         //变速
@@ -82,6 +89,7 @@ class CtrlView : AppCompatActivity(), ICtrlView {
 
         //返回
         id_iv_back.setOnAlphaListener {
+            id_vv.pause()
             finish()
         }
 
@@ -107,6 +115,16 @@ class CtrlView : AppCompatActivity(), ICtrlView {
                 hidePanel()
                 isLocked = true
             })
+
+        id_iv_next.setOnAlphaListener {
+            presenter.next()
+            showPanel()
+        }
+
+        id_iv_prev.setOnAlphaListener {
+            presenter.prev()
+            showPanel()
+        }
     }
 
     override fun render(ctrlPanel: CtrlPanel) {
@@ -125,33 +143,31 @@ class CtrlView : AppCompatActivity(), ICtrlView {
         ld_rl_loading.visibility = View.VISIBLE
     }
 
+    override fun onPause() {
+        super.onPause()
+        id_vv.pause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        id_vv.start()
+    }
 
     override fun showPanel() {
-        Log.e("showPanel", "showPanel: " + isShow);
-        if (isShow) {
-            hidePanel()
-            isShow = !isShow
-            return
-        }
-
+        isShow = true
         id_ll_top.visibility = View.VISIBLE
         id_ll_bottom.visibility = View.VISIBLE
         id_iv_lock.visibility = View.VISIBLE
         id_sb_progress.visibility = View.VISIBLE
-
         presenter.render(false)
-        isShow = !isShow
-        //使用Handler五秒钟之后隐藏面板
+
         mHandler.removeMessages(100)
-        val msg = Message.obtain(mHandler) {
-            hidePanel()
-            hideLock()
-        }
-        msg.what = 100
-        mHandler.sendMessageDelayed(msg, 5000)
+        mHandler.sendEmptyMessageDelayed(100, 5000)
+
     }
 
     override fun hidePanel() {
+        isShow = false
         id_ll_top.visibility = View.GONE
         id_ll_bottom.visibility = View.GONE
         id_sb_progress.visibility = View.GONE

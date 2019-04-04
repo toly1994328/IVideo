@@ -13,8 +13,8 @@ import android.view.SurfaceView;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
+import com.toly1994.ivideo.db.VideoDao;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -107,6 +107,7 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
         releasePlayer();
         mMediaPlayer = new MediaPlayer();
         try {
+            Log.e(TAG, "openVideo: " + mUri);
             mMediaPlayer.setDataSource(getContext(), mUri);
             mMediaPlayer.setDisplay(mSurfaceHolder);
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -124,10 +125,6 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
                 mOnSizeChanged.onSizeChange();
             }
             if (mVideoWidth != 0 && mVideoHeight != 0) {
-//                changeVideoSize(1, 1);
-//                fitVideoSize();
-//                fitSize16_9();
-//                fitSize(4.f / 3);
                 fitVideoSize(mVideoWidth, mVideoHeight, mSurfaceWidth, mSurfaceHeight);
             }
         });
@@ -295,6 +292,7 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
      * 释放播放器
      */
     private void releasePlayer() {
+        Log.e(TAG, "releasePlayer: " + mUri.getPath());
         if (mMediaPlayer != null) {
             mMediaPlayer.reset();
             mMediaPlayer.release();
@@ -303,11 +301,11 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
     }
 
 
-    public void setVideoPath(String path) {
-        this.path = path;
-        mUri = Uri.parse(path);
-        setVideoURI(mUri);
-    }
+//    public void setVideoPath(String path) {
+//        this.path = path;
+//        mUri = Uri.parse(path);
+//        setVideoURI(mUri);
+//    }
 
     public void setVideoURI(Uri uri) {
         mUri = uri;
@@ -355,13 +353,6 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
         return result;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public String getName() {
-        return new File(path).getName();
-    }
 
     //----------------------------------------------------------------
     //------------MediaPlayerControl接口函数---------------------------
@@ -375,10 +366,17 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
 
     @Override
     public void pause() {
+        saveProgress();
         if (canPlay() && mMediaPlayer.isPlaying()) {
             mMediaPlayer.pause();
         }
     }
+
+    private void saveProgress() {
+        int per = (int) (getCurrentPosition() * 1.f / getDuration() * 100);
+        VideoDao.newInstance().saveProgress(mUri.getPath(), per);
+    }
+
 
     @Override
     public int getDuration() {
@@ -406,6 +404,10 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
         pause();
         mMediaPlayer.seekTo((int) (pos / 100.f * getDuration()));
         start();
+    }
+
+    public String getPath() {
+        return mUri.getPath();
     }
 
     @Override

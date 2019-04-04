@@ -13,11 +13,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.toly1994.ivideo.R;
-import com.toly1994.ivideo.model.VideoInfo;
-import com.toly1994.ivideo.presenter.IHomePresenter;
 import com.toly1994.ivideo.app.utils.DialogUtils;
 import com.toly1994.ivideo.app.utils.Formater;
-import com.toly1994.ivideo.view.CtrlView;
+import com.toly1994.ivideo.app.utils.filer.Filer;
+import com.toly1994.ivideo.db.VideoDao;
+import com.toly1994.ivideo.model.VideoInfo;
+import com.toly1994.ivideo.presenter.IHomePresenter;
+import com.toly1994.ivideo.view.itf.impl.CtrlPanelView;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -50,7 +52,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
         VideoInfo videoInfo = mVideos.get(position);
 
-        if (videoInfo.getDataUrl().equals(mVideos.get(0).getDataUrl())) {
+        String dataUrl = videoInfo.getDataUrl();
+        if (dataUrl.equals(mVideos.get(0).getDataUrl())) {
             holder.mIdNewTag.setVisibility(View.VISIBLE);
         } else {
             holder.mIdNewTag.setVisibility(View.GONE);
@@ -64,8 +67,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         }
 
         holder.mIvCover.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, CtrlView.class);
-            intent.putExtra("video-path", videoInfo.getDataUrl());
+            Intent intent = new Intent(mContext, CtrlPanelView.class);
+            intent.putExtra("video-position", position);
             mContext.startActivity(intent);
         });
 
@@ -83,6 +86,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         holder.mIdTvTime.setText("时长 " + Formater.formatTime(videoInfo.getDuration()));
         float size = videoInfo.getSize() * 1.f / 1024 / 1024;
         holder.mIdTvType.setText(new DecimalFormat("#.00").format(size) + "M");
+        holder.mIdTvDir.setText("文件夹 " + Filer.getParent(dataUrl, 3));
+
+
+        holder.mIdTvSee.setText("" + VideoDao.newInstance().getPlayCount(dataUrl));
     }
 
     private void doDeleteFile(VideoInfo video, boolean stub) {
@@ -109,6 +116,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         public ImageView mIvCover;
         public TextView mIdTvType;
         public TextView mIdTvTime;
+        public TextView mIdTvDir;
+        public TextView mIdTvSee;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -117,6 +126,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             mIdTvType = itemView.findViewById(R.id.id_tv_type);
             mIdNewTag = itemView.findViewById(R.id.id_new_tag);
             mIdTvTime = itemView.findViewById(R.id.tv_author);
+            mIdTvDir = itemView.findViewById(R.id.id_tv_dir);
+            mIdTvSee = itemView.findViewById(R.id.id_tv_see);
         }
     }
 }

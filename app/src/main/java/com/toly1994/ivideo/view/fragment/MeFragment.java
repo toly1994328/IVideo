@@ -1,36 +1,38 @@
-package com.toly1994.ivideo.view;
+package com.toly1994.ivideo.view.fragment;
 
+import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import com.toly1994.ivideo.R;
-import com.toly1994.ivideo.app.permission.Permission;
-import com.toly1994.ivideo.app.permission.PermissionActivity;
-import com.toly1994.ivideo.app.utils.ScreenUtils;
 import com.toly1994.ivideo.model.VideoInfo;
+import com.toly1994.ivideo.model.dir.DirBean;
 import com.toly1994.ivideo.presenter.HomePresenter;
-import com.toly1994.ivideo.presenter.IHomePresenter;
+import com.toly1994.ivideo.view.itf.IHomeView;
 import com.toly1994.ivideo.view.adapter.HomeAdapter;
 
 import java.util.List;
 
 /**
  * 作者：张风捷特烈<br/>
- * 时间：2019/4/1/001:19:34<br/>
+ * 时间：2019/4/2/002:10:28<br/>
  * 邮箱：1981462002@qq.com<br/>
  * 说明：
  */
-public class HomeView extends PermissionActivity implements IView {
-
-
+public class MeFragment extends Fragment implements IHomeView {
     private RecyclerView mRv;
-    private SwipeRefreshLayout mSrl;
+    private HomePresenter mPresenter;
     private HomeAdapter mAdapter;
-    private IHomePresenter mPresenter;
-
+    private SwipeRefreshLayout mSrl;
+    private Context mContext;
 
     private Handler mHandler = new Handler(msg -> {
         if (mSrl.isRefreshing()) {
@@ -40,37 +42,28 @@ public class HomeView extends PermissionActivity implements IView {
         return false;
     });
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ScreenUtils.hideStatusBar(this);
-        setContentView(R.layout.activity_home);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fg_me, container, false);
+        mContext = view.getContext();
+        init(view);
 
-        applyPermissions(Permission.WRITE_EXTERNAL_STORAGE);
-        initLoading();
-
+        return view;
     }
 
-
-    @Override
-    protected void permissionOk(boolean isFirst) {
-        mRv = findViewById(R.id.id_rv_home);
-
+    private void init(View view) {
+        mSrl = view.findViewById(R.id.id_srl);
+        initLoading();
+        mRv = view.findViewById(R.id.id_rv_home);
         mPresenter = new HomePresenter(this);
         mAdapter = new HomeAdapter(mPresenter);
         mPresenter.render(false);
-
-        mRv.setLayoutManager(new GridLayoutManager(this, 2));
+        mRv.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         mRv.setAdapter(mAdapter);
     }
 
-    @Override
-    public void render(List<VideoInfo> videos) {
-        mAdapter.setdata(videos);
-    }
-
     public void initLoading() {
-        mSrl = findViewById(R.id.id_srl);
 
         //每转一圈，换一种颜色
         mSrl.setColorSchemeColors(
@@ -86,5 +79,30 @@ public class HomeView extends PermissionActivity implements IView {
         mSrl.setOnRefreshListener(() -> {
             mHandler.sendEmptyMessage(0);
         });
+    }
+
+    @Override
+    public Context getCtx() {
+        return mContext;
+    }
+
+    @Override
+    public void renderVideo(List<VideoInfo> videos) {
+        mAdapter.setdata(videos);
+    }
+
+    @Override
+    public void renderDir(List<DirBean> dirBeans) {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
     }
 }

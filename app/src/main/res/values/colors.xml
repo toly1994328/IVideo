@@ -14,4 +14,26 @@
     <color name="colorDefaultSubText">#898989</color>
     <color name="colorLine">#D6D6D6</color>
     <color name="colorProgressBar">#ECE8E7</color>
+
+
+    <color name="icon_video">#FF7F46</color>
+    <color name="icon_hot">#6BFB00</color>
+    <color name="icon_setting">#F3D861</color>
+    <color name="icon_me">#5CEBF2</color>
+
+
+    <!--妃色-->
+    <color name="feise">#F07054</color>
+    <!--月白-->
+    <color name="yuebai">#DDEFF3</color>
+    <!--牙色-->
+    <color name="yase">#F1E3BC</color>
+    <!--竹青-->
+    <color name="zhuqing">#8CA279</color>
+
+    <!--品橙-->
+    <color name="pincheng">#FF7F47</color>
+    <!--捷特蓝-->
+    <color name="jietelan">#C8D5F7</color>
+    <color name="white">#fff</color>
 </resources>

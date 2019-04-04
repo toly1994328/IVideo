@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.MediaMetadataRetriever;
 import android.os.Handler;
-import com.toly1994.itf.CommonCBK;
+import com.toly1994.ivideo.app.itf.CommonCBK;
 import com.toly1994.ivideo.app.Cons;
 
 import java.io.File;

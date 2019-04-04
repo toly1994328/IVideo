@@ -2,7 +2,7 @@ package com.toly1994.ivideo.app.utils;
 
 import android.os.SystemClock;
 import android.view.View;
-import com.toly1994.itf.CommonCBK;
+import com.toly1994.ivideo.app.itf.CommonCBK;
 
 /**
  * 作者：张风捷特烈

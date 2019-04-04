@@ -57,9 +57,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/iv_cover"
+                android:maxLines="2"
+                android:padding="5dp"
                 android:background="#88000000"
                 android:text="《海与鹿王》"
                 android:textColor="@android:color/white"
+                android:ellipsize="end"
                 android:textSize="12sp"/>
 
             <TextView
@@ -80,7 +83,9 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:layout_below="@id/tv_author"
-                android:layout_alignLeft="@id/tv_author"
+                android:layout_toRightOf="@id/tv_author"
+                android:layout_alignTop="@id/tv_author"
+                android:layout_alignBottom="@id/tv_author"
                 android:layout_marginBottom="4dp"
                 android:background="@android:color/white"
                 android:src="@drawable/icon_eye"/>
@@ -93,9 +98,25 @@
                 android:layout_toRightOf="@id/id_iv_see"
                 android:background="@android:color/white"
                 android:paddingLeft="4dp"
-                android:text="浏览:3000W"
+                android:text="3000W"
                 android:textColor="#FF9800"
                 android:textSize="12sp"/>
+
+            <TextView
+                    android:id="@+id/id_tv_dir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:layout_alignLeft="@id/tv_author"
+                    android:layout_below="@id/tv_author"
+                    android:paddingBottom="3dp"
+                    android:text="文件夹: fggggggggggggggggggggggg"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="#3A58FD"
+                    android:textSize="12sp"/>
+
+
 
         </RelativeLayout>
 

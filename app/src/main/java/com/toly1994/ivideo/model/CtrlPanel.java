@@ -11,6 +11,8 @@ public class CtrlPanel {
     public String time;
     public String allTime;
     public String playedTime;
+    public String dir;
+    public int progress;
     public float speed;
     public int rate;
 }

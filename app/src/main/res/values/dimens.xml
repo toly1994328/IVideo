@@ -38,6 +38,10 @@
     <dimen name="corner_length">20dp</dimen>
     <!--剪裁图片-->
 
+
+    <dimen name="tool_bar_padding_top">24dp</dimen>
+    <dimen name="tool_bar_height_adapt">74dp</dimen>
+
     <!--默认边距-->
     <dimen name="default_padding">8dp</dimen>
     <!--默认图标大小-->

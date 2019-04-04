@@ -1,4 +1,4 @@
-package com.toly1994.itf;
+package com.toly1994.ivideo.app.itf;
 
 /**
  * 作者：张风捷特烈<br/>

@@ -1,0 +1,143 @@
+apply plugin: 'com.android.application'
+
+//----------------自动生成 svg 插件 -------------------------------------------------
+apply plugin: Svg2xml//声明使用插件
+
+////--------------------------插件书写-------------------------------------------
+
+//----------------------------以下是插件部分--------------------------------
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+class Svg2xml implements Plugin<Project> {
+    //该接口定义了一个apply()方法，在该方法中，我们可以操作Project，
+    //比如向其中加入Task，定义额外的Property等。
+    void apply(Project project) {
+        //加载Extension
+        project.extensions.create("xmlSetting", Svg2xmlPluginExtension)
+
+        //使用Extension配置信息
+        project.task('Svg2xml') << {
+            String color = project.xmlSetting.color
+            String path = project.getProjectDir().getAbsolutePath() + File.separator + 'src\\main\\res\\drawable'
+            svg2xmlFromDir(path, color);
+        }
+
+    }
+    /**
+     * 将一个文件夹里的所有svg转换为xml
+     *
+     * @param filePath
+     */
+    public static void svg2xmlFromDir(String filePath, String color) {
+
+        File file = new File(filePath);
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (File f : files) {
+                if (f.getName().endsWith(".svg")) {
+                    System.out.println(f);
+                    svg2xml(f, color);
+                }
+            }
+        } else {
+            svg2xml(file, color);
+        }
+    }
+
+/**
+ * 将.svg文件转换为安卓可用的.xml
+ *
+ * @param file 文件路径
+ */
+    public static void svg2xml(File file, String color) {
+        File srcFile = file
+
+
+        if (!file.exists() && file.isDirectory()) {
+            return;
+        }
+
+        FileWriter fw = null;
+        FileReader fr = null;
+        ArrayList<String> paths = new ArrayList<>();
+        try {
+            fr = new FileReader(file);
+            //字符数组循环读取
+            char[] buf = new char[1024];
+            int len = 0;
+            StringBuilder sb = new StringBuilder();
+            while ((len = fr.read(buf)) != -1) {
+                sb.append(new String(buf, 0, len));
+            }
+            //收集所有path
+            collectPaths(sb.toString(), paths);
+
+            //拼接字符串
+            StringBuilder outSb = contactStr(paths, color);
+            //写出到磁盘
+            File outFile = new File(file.getParentFile(), file.getName().substring(0, file.getName().lastIndexOf(".")) + ".xml");
+            fw = new FileWriter(outFile);
+            fw.write(outSb.toString());
+
+            System.out.println("转换成功：" + file.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fw != null) {
+                    fw.close();
+                }
+                if (fr != null) {
+                    fr.close();
+                }
+                srcFile.delete()
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+/**
+ * 拼接字符串
+ *
+ * @param paths
+ * @return
+ */
+    private static StringBuilder contactStr(ArrayList<String> paths, String color) {
+        StringBuilder outSb = new StringBuilder();
+        outSb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                "<vector xmlns:android=\"http://schemas.android.com/apk/res/android\"\n" +
+                "        android:width=\"48dp\"\n" +
+                "        android:height=\"48dp\"\n" +
+                "        android:viewportWidth=\"1024\"\n" +
+                "        android:viewportHeight=\"1024\">\n");
+        for (String path : paths) {
+            outSb.append("    <path\n" +
+                    "        android:fillColor=\"" + color + "\"\nandroid:pathData=\"");
+            outSb.append(path);
+            outSb.append("\"/>");
+        }
+        outSb.append("</vector>");
+        return outSb;
+    }
+
+/**
+ * 收集所有path
+ *
+ * @param result
+ * @param paths
+ */
+    private static void collectPaths(String result, ArrayList<String> paths) {
+        String regex = "<path d=\"(?<res>(.)*?)\"";
+        Matcher matcher = Pattern.compile(regex).matcher(result);
+        while (matcher.find()) {
+            String path = matcher.group("res");
+            paths.add(path);
+        }
+    }
+}
+
+class Svg2xmlPluginExtension {//拓展参数
+    String color = '#FF7F47'
+}

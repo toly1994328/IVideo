@@ -10,4 +10,5 @@ import android.content.Context;
  */
 public interface IHomePresenter extends IPresenter {
     void delete(Context context, int videoId);
+    void filter(String cdt);
 }

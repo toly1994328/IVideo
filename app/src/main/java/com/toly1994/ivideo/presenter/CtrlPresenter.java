@@ -1,8 +1,10 @@
 package com.toly1994.ivideo.presenter;
 
+import com.toly1994.ivideo.app.itf.VideoPlayerManager;
 import com.toly1994.ivideo.app.utils.Formater;
+import com.toly1994.ivideo.db.VideoDao;
 import com.toly1994.ivideo.model.CtrlPanel;
-import com.toly1994.ivideo.view.ICtrlView;
+import com.toly1994.ivideo.view.itf.ICtrlPanelView;
 import com.toly1994.ivideo.widget.VideoView;
 
 import java.text.SimpleDateFormat;
@@ -16,26 +18,30 @@ import java.util.Locale;
  */
 public class CtrlPresenter implements ICtrlPresenter {
 
-    private ICtrlView mICtrlView;
+    private ICtrlPanelView mICtrlPanelView;
     private VideoView mVideoView;
     private final CtrlPanel mPanel;
+    private final VideoPlayerManager mManager;
 
-    public CtrlPresenter(ICtrlView ICtrlView, VideoView videoView) {
-        mICtrlView = ICtrlView;
-        mICtrlView.showLoading();
+    public CtrlPresenter(ICtrlPanelView ICtrlPanelView, VideoView videoView) {
+        mICtrlPanelView = ICtrlPanelView;
+        mICtrlPanelView.showLoading();
         mVideoView = videoView;
+        mManager = new VideoPlayerManager(mVideoView);
         mPanel = new CtrlPanel();
     }
 
     @Override
-    public void initVideo(String path) {
-        mVideoView.setVideoPath(path);
-        mPanel.name = mVideoView.getName();
-
+    public void initVideo(int position) {
+        mManager.setVideoPath(position);
+        mPanel.name = mManager.getName();
         mVideoView.setOnPreparedListener(
                 mp -> {
-                    mICtrlView.hideLoading();
+                    mICtrlPanelView.hideLoading();
                     mPanel.allTime = Formater.formatTime(mVideoView.getDuration());
+                    int progress = VideoDao.newInstance().getProgress(mVideoView.getPath());
+                    mVideoView.seekTo(progress);
+                    mPanel.rate = progress;
                     render(false);
                 }
         );
@@ -45,20 +51,38 @@ public class CtrlPresenter implements ICtrlPresenter {
                     mPanel.rate = per_100;
                     render(false);
                 });
+        mICtrlPanelView.showPanel();
+    }
 
+    @Override
+    public void next() {
+        mManager.next();
+        render(true);//刷新面板
+    }
 
-        mICtrlView.showPanel();
+    @Override
+    public void prev() {
+        mManager.prev();
+        render(true);//刷新面板
     }
 
     @Override
     public void render(boolean force) {
         updateCtrlData();
-        mICtrlView.render(mPanel);
+        if (force) {//强制刷新，表示数据全部刷新
+            mPanel.name = mManager.getName();
+        }
+        mICtrlPanelView.render(mPanel);
+
     }
+
+
 
     private void updateCtrlData() {
         mPanel.time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
                 .format(System.currentTimeMillis());
         mPanel.playedTime = Formater.formatTime((long) (mPanel.rate / 100.f * mVideoView.getDuration()));
+
+
     }
 }

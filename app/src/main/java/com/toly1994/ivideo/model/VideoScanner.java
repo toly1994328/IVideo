@@ -2,10 +2,7 @@ package com.toly1994.ivideo.model;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.Handler;
 import android.provider.MediaStore;
-import com.toly1994.itf.CommonCBK;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +15,6 @@ import java.util.List;
  * 说明：视频ContentProvide相关操作---生成视频List
  */
 public class VideoScanner {
-    private Handler mHandler ;
     private static String[] projection = new String[]{
             MediaStore.Video.Media._ID,//歌曲ID
             MediaStore.Video.Media.TITLE,//名称
@@ -28,15 +24,12 @@ public class VideoScanner {
             MediaStore.Video.Media.DATE_ADDED//音乐添加的时间
     };
 
-    public VideoScanner() {
-        mHandler = new Handler();
-    }
 
     /**
      * @param context
      * @return
      */
-    public void loadVideo(final Context context, OnLoadSuccess callback,CommonCBK cbk) {
+    public void loadVideo(final Context context, OnLoadSuccess callback) {
         List<VideoInfo> videos = new ArrayList<>();
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
@@ -62,24 +55,11 @@ public class VideoScanner {
         }
         if (callback != null) {
             callback.success(videos);
-            CacheCaver caver = new CacheCaver(videos,mHandler);
-            new Thread() {
-                @Override
-                public void run() {
-                        caver.save(cbk);
-                }
-            }.start();
         }
 
-    }
-
-    public void delete(Context context, int id) {
-        Uri imgUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-        context.getContentResolver().delete(imgUri, "_id=" + id, null);
     }
 
     public interface OnLoadSuccess {
         void success(List<VideoInfo> videos);
     }
-
 }
