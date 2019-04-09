@@ -6,6 +6,7 @@ import com.toly1994.ivideo.model.VideoInfo;
 import com.toly1994.ivideo.model.VideoScanner;
 import com.toly1994.ivideo.model.dir.DirBean;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -25,6 +26,7 @@ public interface VideoSourceApi {
      */
 
     List<VideoInfo> getVideos();
+    List<VideoInfo> geTempVideos();
 
     /**
      * 通过名字过滤视频
@@ -38,5 +40,8 @@ public interface VideoSourceApi {
 
     void delete(Context context, int id);
 
+    List<VideoInfo> filter( File[] sons);
 
+
+    List<VideoInfo> sortBy(SortType sortType);
 }

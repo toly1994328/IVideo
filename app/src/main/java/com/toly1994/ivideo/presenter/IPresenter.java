@@ -9,5 +9,4 @@ package com.toly1994.ivideo.presenter;
 public interface IPresenter {
     void render(boolean force);
 
-
 }

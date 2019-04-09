@@ -5,7 +5,7 @@ import com.toly1994.ivideo.app.api.VideoSourceApi;
 import com.toly1994.ivideo.db.VideoBean;
 import com.toly1994.ivideo.db.VideoDao;
 import com.toly1994.ivideo.model.VideoInfo;
-import com.toly1994.ivideo.presenter.HomePresenter;
+import com.toly1994.ivideo.presenter.home.HomePresenter;
 import com.toly1994.ivideo.widget.VideoView;
 
 import java.io.File;
@@ -33,20 +33,21 @@ public class VideoPlayerManager {
         mCurrentPos = position;
         Uri url = Uri.parse(getCurrentVideoPath(mCurrentPos));
 
-        VideoInfo info = mVideoApi.getVideos().get(position);
+        VideoInfo info = mVideoApi.geTempVideos().get(position);
         VideoBean videoBean = new VideoBean();
         videoBean.setPath(info.getDataUrl());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         videoBean.setLast_play_time(format.format(System.currentTimeMillis()));
         VideoDao.newInstance().insert(videoBean);
-        VideoDao.newInstance().getRecent(5);
+//        VideoDao.newInstance().getRecent(5);
+        VideoDao.newInstance().getMost(3);
 
         mVideoView.setVideoURI(url);
 
     }
 
     private String getCurrentVideoPath(int position) {
-        return mVideoApi.getVideos().get(position).getDataUrl();
+        return mVideoApi.geTempVideos().get(position).getDataUrl();
     }
 
 
@@ -81,6 +82,4 @@ public class VideoPlayerManager {
             mCurrentPos = songSize - 1;
         }
     }
-
-
 }

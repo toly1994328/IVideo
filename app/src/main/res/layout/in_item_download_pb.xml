@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    tools:showIn="@layout/item_download_pb">
+
+    <com.toly1994.ivideo.widget.TolyProgressBar
+        android:id="@+id/id_pb_h"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:z_pb_bg_color="#CDD7DC"
+        app:z_pb_txt_color="#ffffff"
+
+        app:z_pb_bg_height="2dp"
+        app:z_pb_on_color="#45BDF8"
+        app:z_pb_on_height="2dp"/>
+
+
+    <TextView
+        android:id="@+id/id_tv_file_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:text="文件名"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/id_pb_h"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <com.toly1994.ivideo.widget.TolyRoundProgressBar
+        android:id="@+id/id_pb_v"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/id_pb_h"
+        app:z_pb_bg_color="#ffffff"
+        app:z_pb_bg_height="1dp"
+        app:z_pb_on_color="#45BDF8"
+        app:z_pb_txt_size="12sp"
+        app:z_pb_txt_color="#ffffff"
+        app:z_pb_radius="25dp"
+        />
+
+    <com.toly1994.ivideo.widget.AlphaImageView
+        android:id="@+id/id_btn_start"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/icon_start_3"
+        android:tint="#45BDF8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/id_btn_stop"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.toly1994.ivideo.widget.AlphaImageView
+        android:id="@+id/id_btn_stop"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/icon_stop_3"
+        android:tint="#45BDF8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/id_pb_v"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

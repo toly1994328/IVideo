@@ -133,23 +133,41 @@ public class VideoDao {
      * 获取最近播放的记录
      *
      * @param count 条数
-     * @return
+     * @return 最近播放的count条记录
      */
     public String[] getRecent(int count) {
+        return getLimit("last_play_time", count);
+    }
+
+    /**
+     * 获取最近播放的记录
+     *
+     * @param count 条数
+     * @return 最近播放的count条记录
+     */
+    public String[] getLimit(String by, int count) {
         String[] strings = new String[count];
         Cursor cursor = mHelper.getReadableDatabase().
-                rawQuery("SELECT path FROM video_player ORDER BY last_play_time DESC LIMIT ?", new String[]{count + ""});
+                rawQuery("SELECT path FROM video_player ORDER BY " + by + " DESC LIMIT ?",
+                        new String[]{count + ""});
         int i = 0;
         while (cursor.moveToNext()) {
             String path = cursor.getString(cursor.getColumnIndex("path"));
             strings[i] = path;
             i++;
         }
-
         cursor.close();
         return strings;
-
     }
 
+    /**
+     * 获取播放最多的n条记录
+     *
+     * @param count 条数
+     * @return 获取播放最多的n条记录
+     */
+    public String[] getMost(int count) {
+        return getLimit("play_count", 3);
+    }
 
 }

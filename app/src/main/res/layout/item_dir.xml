@@ -28,5 +28,22 @@
             app:layout_constraintStart_toEndOf="@+id/id_iv"
             android:text="android"/>
 
+    <TextView
+            android:id="@+id/id_tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4个"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp"
+    />
+
+    <View android:layout_width="match_parent"
+          app:layout_constraintBottom_toBottomOf="parent"
+          android:layout_height="1px"
+          android:background="@color/feise"
+    />
+
 
 </android.support.constraint.ConstraintLayout>

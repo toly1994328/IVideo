@@ -6,7 +6,7 @@ package com.toly1994.ivideo.model
  * 邮箱：1981462002@qq.com<br></br>
  * 说明：
  */
-data class VideoInfo(
+data class VideoInfo (
     var videoId: Long,
     var title: String,
     var dataUrl: String,

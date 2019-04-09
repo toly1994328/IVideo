@@ -19,9 +19,16 @@ import java.util.concurrent.Executors
  * 说明：
  */
 class VideoSourceApiImpl : VideoSourceApi {
+    override fun geTempVideos(): List<VideoInfo>? {
+        return tempVideos
+
+    }
+
+
     private val exe = Executors.newSingleThreadExecutor()
 
     private var videos: List<VideoInfo>? = null
+    private var tempVideos: List<VideoInfo>? = null
 
     private val mHandler: Handler = Handler()
 
@@ -39,9 +46,11 @@ class VideoSourceApiImpl : VideoSourceApi {
     }
 
     override fun filterName(name: String): List<VideoInfo>? {
-        return getVideos().filter {
+        tempVideos = getVideos().filter {
             it.dataUrl.contains(name)
         }
+        return tempVideos
+
     }
 
     override fun getVideoDirs(): List<DirBean> {
@@ -103,5 +112,25 @@ class VideoSourceApiImpl : VideoSourceApi {
     override fun delete(context: Context, id: Int) {
         val uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
         context.contentResolver.delete(uri, "_id=$id", null)
+    }
+
+    override fun filter(sons: Array<File>): List<VideoInfo> {
+        tempVideos = getVideos().filter {
+            sons.contains(File(it.dataUrl))
+        }
+        return tempVideos as List<VideoInfo>
+
+    }
+
+    override fun sortBy(sortType: SortType?): List<VideoInfo> {
+//        val videos = getVideos()
+//        Collections.sort(videos, ())
+//
+//        when (sortType) {
+//            SortType.DIR->
+//
+//        }
+        return getVideos()
+
     }
 }

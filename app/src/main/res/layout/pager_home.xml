@@ -6,32 +6,15 @@
         android:layout_height="match_parent"
         android:background="#F9FDEF">
 
-    <!--<FrameLayout-->
-            <!--android:id="@+id/id_fl_place_bar"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content">-->
-    <!--</FrameLayout>-->
 
-    <!--<include layout="@layout/in_pager_home_appbar_top"/>-->
     <include layout="@layout/search_bar"/>
-    <!--<include layout="@layout/activity_stop_search_view_toolbar_layout"/>-->
 
     <FrameLayout
             android:id="@+id/id_fl_place"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
     </FrameLayout>
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-    <!--android:id="@+id/id_fab_b"-->
-    <!--android:layout_width="50dp"-->
-    <!--android:layout_height="50dp"-->
-    <!--android:layout_gravity="bottom|end"-->
-    <!--android:layout_marginEnd="@dimen/dp_32"-->
-    <!--android:layout_marginBottom="@dimen/dp_72"-->
-    <!--android:src="@drawable/icon_tag"-->
-    <!--app:layout_behavior="@string/behavior_fab_follow"/>-->
 
 
     <com.ashokvarma.bottomnavigation.BottomNavigationBar
@@ -42,7 +25,5 @@
             app:bnbBackgroundStyle="background_style_static"
             app:bnbMode="mode_fixed"
             app:layout_behavior="@string/followListBehavior"/>
-
-    <!--<include layout="@layout/sheet_bottom"/>-->
 
 </android.support.design.widget.CoordinatorLayout>

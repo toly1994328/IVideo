@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="#ccBBDDF8"
+        android:id="@+id/id_cover"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content">
+
+    <RelativeLayout
+            android:id="@+id/rl_dir"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="60dp">
+        <TextView
+                android:layout_marginStart="20dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="按文件夹"/>
+
+        <CheckBox
+                android:id="@+id/id_cb_by_dir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/rl_size"
+            app:layout_constraintTop_toBottomOf="@id/rl_dir"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+        <TextView
+                android:layout_marginStart="20dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="按大小"/>
+
+        <CheckBox
+                android:id="@+id/id_cb_by_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+            app:layout_constraintTop_toBottomOf="@id/rl_size"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+        <TextView
+                android:layout_marginStart="20dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="按时间"/>
+
+        <CheckBox
+                android:id="@+id/id_cb_by_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"/>
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

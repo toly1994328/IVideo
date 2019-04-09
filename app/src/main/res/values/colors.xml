@@ -36,4 +36,8 @@
     <!--捷特蓝-->
     <color name="jietelan">#C8D5F7</color>
     <color name="white">#fff</color>
+
+
+    <color name="QQ_blue">#ee1ba4dd</color>
+    <color name="QQ_blue_p">#bb1BA4DD</color>
 </resources>

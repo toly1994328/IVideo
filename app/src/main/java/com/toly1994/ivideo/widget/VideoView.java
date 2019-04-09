@@ -462,15 +462,20 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
     private void updateProgress() {
         mTimer.schedule(new TimerTask() {
             public void run() {
+                if (mMediaPlayer == null) {
+                    return;
+                }
                 int duration = mMediaPlayer.getDuration();//获取总时长
                 int currentPosition = mMediaPlayer.getCurrentPosition();//获取当前播放了多少
                 int per_100 = (int) (currentPosition * 1.0 / duration * 100);
                 if (mOnProgressChanged != null) {
-                    post(() -> mOnProgressChanged.onChange(per_100));
+                    post(() -> mOnProgressChanged.onChange(per_100,currentPosition));
                 }
             }
         }, 0, 1000);
     }
+
+
 
     //----------------------------------------------------------------
     //------------补偿回调---------------------------
@@ -502,7 +507,7 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
     }
 
     public interface OnProgressChanged {
-        void onChange(int per_100);
+        void onChange(int per_100, int position);
     }
 
     private OnProgressChanged mOnProgressChanged;
